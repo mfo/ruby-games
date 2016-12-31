@@ -4,26 +4,29 @@ class SpaceInvader < Gosu::Window
 
     self.caption = "PacMan"
 
-    setup_space
     @wait_for = 1_000
+
+    setup_space
     reset_timer
     make_game_entities
+    setup_collisions
   end
 
   def draw
     background
-    @view_objects.shapes_in_viewport.map(&:draw)
+    @entity_manager.shapes_in_viewport.map(&:draw)
   end
 
   def update
     pop_enemy if one_sec_elapsed?
     shoot if Gosu::button_down? Gosu::KbSpace
     GameConstants::SUBSTEPS.times do
-      @view_objects.shapes_in_viewport.map(&:update)
+      @entity_manager.shapes_in_viewport.map(&:update)
       GameConstants::SPACE.step(GameConstants::DT)
     end
 
-    @view_objects.clean_outside_viewport
+    @entity_manager.clean_outside_viewport
+    @entity_manager.clean_collided
   end
 
   def button_down(key)
@@ -35,13 +38,28 @@ class SpaceInvader < Gosu::Window
 
   private
 
+  #
+  # Game setup
+  #
+  def setup_collisions
+    @remove_shapes = []
+
+    GameConstants::SPACE.add_collision_func(:beam, :enemy) do |beam_shape, enemy_shape|
+      @entity_manager.add_collided_shape(beam_shape)
+      @entity_manager.add_collided_shape(enemy_shape)
+    end
+    GameConstants::SPACE.add_collision_func(:spaceship, :enemy) do |spaceship_shape, enemy_shape|
+      @entity_manager.add_collided_shape(enemy)
+    end
+  end
+
   def setup_space
     GameConstants::SPACE.damping = 0.8
   end
 
   def make_game_entities
     @spaceship = Spaceship.new
-    @view_objects = GameEntityManager.new(@spaceship)
+    @entity_manager = GameEntityManager.new(@spaceship)
   end
 
   #
@@ -61,11 +79,11 @@ class SpaceInvader < Gosu::Window
   #
   def pop_enemy
     reset_timer
-    @view_objects.add(Enemy.new)
+    @entity_manager.add(Enemy.new)
   end
 
   def shoot
-    @view_objects.add(Beam.new(start_at_x: @spaceship.shape.body.p.x,
+    @entity_manager.add(Beam.new(start_at_x: @spaceship.shape.body.p.x,
                                start_at_y: @spaceship.shape.body.p.y - 25 ))
   end
 

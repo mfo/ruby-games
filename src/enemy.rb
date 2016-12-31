@@ -13,7 +13,7 @@ class Enemy
                     CP::Vec2.new(10, 1.0),
                     CP::Vec2.new(10, -1.0) ]
     @shape = CP::Shape::Poly.new(body, shape_array, CP::Vec2.new(0,0))
-    @shape.collision_type = :ship
+    @shape.collision_type = :enemy
     @shape.body.p.x = rand(GameConstants::WIDTH - 20)
     @shape.body.p.y = 20
 

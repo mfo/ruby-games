@@ -14,7 +14,7 @@ class Spaceship
                     CP::Vec2.new(25.0, 0),
                     CP::Vec2.new(0, 0) ]
     @shape = CP::Shape::Poly.new(body, CP::recenter_poly(shape_array), CP::Vec2.new(0,0))
-    @shape.collision_type = :ship
+    @shape.collision_type = :spaceship
 
     @shape.body.p.x = (GameConstants::WIDTH / 2) - (WIDTH / 2)
     @shape.body.p.y = GameConstants::HEIGHT - 10

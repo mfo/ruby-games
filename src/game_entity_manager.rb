@@ -3,10 +3,15 @@ class GameEntityManager
 
   def initialize(*elements)
     @collection = elements
+    @collided_shapes = []
   end
 
   def add(item)
     collection.push(item)
+  end
+
+  def add_collided_shape(shape)
+    @collided_shapes.push(shape)
   end
 
   def remove(item)
@@ -19,6 +24,14 @@ class GameEntityManager
 
   def shapes_in_viewport
     collection.select { |item| in_viewport?(item.shape.body.p) }
+  end
+
+  def clean_collided
+    @collided_shapes.delete_if do |shape|
+      item = @collection.find{ |item| item.shape == shape }
+      remove(item) if item
+    end
+    @collided_shapes = []
   end
 
   def clean_outside_viewport

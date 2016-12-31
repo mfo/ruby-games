@@ -13,7 +13,7 @@ class Beam
                     CP::Vec2.new(0.1, 1.0),
                     CP::Vec2.new(0.1, -1.0) ]
     @shape = CP::Shape::Poly.new(body, shape_array, CP::Vec2.new(0,0))
-    @shape.collision_type = :ship
+    @shape.collision_type = :beam
     @shape.body.p.x = start_at_x
     @shape.body.p.y = start_at_y
     @shape.body.a = (3*Math::PI/2.0) # angle in radians; faces towards top of screen
