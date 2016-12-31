@@ -1,3 +1,4 @@
+# The game hero
 class Spaceship < GameEntity
   attr_reader :life
 

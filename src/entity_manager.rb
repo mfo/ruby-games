@@ -1,3 +1,7 @@
+# Store all objects to be managed by Chipmunk physics
+# Exposing a register/release methods
+# Expose some Query methods (in_viewport, outside_viewport, find_by_shape)
+# Manage out of viewport objects release
 class EntityManager
   attr_reader :game_entities
 
@@ -5,20 +9,11 @@ class EntityManager
     @game_entities = elements
   end
 
+  #
+  # enumerable apis
+  #
   def add(item)
     game_entities.push(item)
-  end
-
-  def size
-    game_entities.size
-  end
-
-  def number_of(type)
-    game_entities.select{|entity| entity.class == type }.size
-  end
-
-  def find_by_shape(shape)
-    @game_entities.find { |item| item.shape == shape }
   end
 
   def remove(item)
@@ -29,9 +24,31 @@ class EntityManager
     end
   end
 
+  def size
+    game_entities.size
+  end
+
+  #
+  # utilities
+  #
+  # count number of entity by type
+  def number_of(type)
+    game_entities.select{|entity| entity.class == type }.size
+  end
+
+  #
+  # Query methods
+  #
   def shapes_in_viewport
     game_entities.select { |item| in_viewport?(item.shape.body.p) }
   end
+
+
+  # retrieve a game entity given a Chipmunk shape
+  def find_by_shape(shape)
+    @game_entities.find { |item| item.shape == shape }
+  end
+
 
   def clean_outside_viewport
     game_entities.select do |item|

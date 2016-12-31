@@ -1,3 +1,4 @@
+# Enemy to be killed
 class Enemy < GameEntity
   def initialize(opts = {})
     super()

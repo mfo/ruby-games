@@ -1,3 +1,4 @@
+# Spaceship beam [when user shoot]
 class Beam < GameEntity
   def initialize(start_at_x:, start_at_y: )
     super()

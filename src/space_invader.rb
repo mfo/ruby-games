@@ -1,3 +1,4 @@
+# Wraps game loop
 class SpaceInvader < Gosu::Window
   MAX_ENEMY = 100
 
@@ -72,7 +73,7 @@ class SpaceInvader < Gosu::Window
   end
 
   #
-  # Shapes mgmt
+  # Game entities mgmt
   #
   def pop_enemy
     reset_timer

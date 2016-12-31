@@ -1,6 +1,11 @@
+# Simple wrapper to make an UI Object
+# must extend : mass, inertia, height, width, color
 class GameEntity
   attr_reader :shape
 
+  # collision_type of Enemy == :enemy
+  # collision_type of Spaceship == :spaceship
+  # collision_type of Beam == :beam
   def self.collision_type
      name.downcase.to_sym
   end
