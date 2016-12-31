@@ -1,4 +1,4 @@
-module GameConstants
+module Constants
   #
   # Viewport & rendering
   #

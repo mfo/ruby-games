@@ -1,15 +1,18 @@
 class SpaceInvader < Gosu::Window
   def initialize
-    super(GameConstants::WIDTH, GameConstants::HEIGHT)
+    super(Constants::WIDTH, Constants::HEIGHT)
 
-    self.caption = "PacMan"
+    self.caption = "SpaceInvader"
 
     @wait_for = 1_000
 
     setup_space
     reset_timer
-    make_game_entities
-    setup_collisions
+    @spaceship = Spaceship.new
+    @entity_manager = EntityManager.new(@spaceship)
+    @collision_manager = CollisionManager.new(@entity_manager)
+
+    @collision_manager.catch_collisions
   end
 
   def draw
@@ -20,13 +23,14 @@ class SpaceInvader < Gosu::Window
   def update
     pop_enemy if one_sec_elapsed?
     shoot if Gosu::button_down? Gosu::KbSpace
-    GameConstants::SUBSTEPS.times do
+
+    Constants::SUBSTEPS.times do
       @entity_manager.shapes_in_viewport.map(&:update)
-      GameConstants::SPACE.step(GameConstants::DT)
+      Constants::SPACE.step(Constants::DT)
     end
 
     @entity_manager.clean_outside_viewport
-    @entity_manager.clean_collided
+    @collision_manager.handle_collisions
   end
 
   def button_down(key)
@@ -41,25 +45,8 @@ class SpaceInvader < Gosu::Window
   #
   # Game setup
   #
-  def setup_collisions
-    @remove_shapes = []
-
-    GameConstants::SPACE.add_collision_func(:beam, :enemy) do |beam_shape, enemy_shape|
-      @entity_manager.add_collided_shape(beam_shape)
-      @entity_manager.add_collided_shape(enemy_shape)
-    end
-    GameConstants::SPACE.add_collision_func(:spaceship, :enemy) do |spaceship_shape, enemy_shape|
-      @entity_manager.add_collided_shape(enemy)
-    end
-  end
-
   def setup_space
-    GameConstants::SPACE.damping = 0.8
-  end
-
-  def make_game_entities
-    @spaceship = Spaceship.new
-    @entity_manager = GameEntityManager.new(@spaceship)
+    Constants::SPACE.damping = 0.8
   end
 
   #
@@ -84,7 +71,7 @@ class SpaceInvader < Gosu::Window
 
   def shoot
     @entity_manager.add(Beam.new(start_at_x: @spaceship.shape.body.p.x,
-                               start_at_y: @spaceship.shape.body.p.y - 25 ))
+                                 start_at_y: @spaceship.shape.body.p.y - 25 ))
   end
 
   #
@@ -96,8 +83,8 @@ class SpaceInvader < Gosu::Window
 
     Gosu.draw_rect(x,
                    y,
-                   GameConstants::WIDTH,
-                   GameConstants::HEIGHT,
+                   Constants::WIDTH,
+                   Constants::HEIGHT,
                    Gosu::Color::WHITE)
   end
 end

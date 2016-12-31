@@ -2,9 +2,10 @@ class Spaceship < GameEntity
 
   def initialize(opts = {})
     super()
+    @life = 1_000
 
-    @shape.body.p.x = (GameConstants::WIDTH / 2) - (width / 2)
-    @shape.body.p.y = GameConstants::HEIGHT - 10
+    @shape.body.p.x = (Constants::WIDTH / 2) - (width / 2)
+    @shape.body.p.y = Constants::HEIGHT - 10
   end
 
   #
@@ -60,5 +61,9 @@ class Spaceship < GameEntity
       (@shape.body.rot * 150.0) * 0.5,
       CP::Vec2.new(0.0, 0.0)
     )
+  end
+
+  def on_collide(entity_manager, collide_context)
+    @life -= 100
   end
 end
