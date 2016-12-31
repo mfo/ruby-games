@@ -1,5 +1,6 @@
-class Viewportable
+class GameEntityManager
   attr_reader :collection
+
   def initialize(*elements)
     @collection = elements
   end
@@ -30,6 +31,9 @@ class Viewportable
       end
     end
   end
+
+  private
+
 
   def in_viewport?(position)
     (position.x > 0 && position.x < GameConstants::WIDTH) &&

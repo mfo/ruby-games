@@ -9,11 +9,11 @@ class Spaceship
 
   def initialize
     body = CP::Body.new(MASS, INERTIA)
-    shape_array = [ CP::Vec2.new(-25.0, -25.0),
-                    CP::Vec2.new(-25.0, 25.0),
-                    CP::Vec2.new(25.0, 1.0),
-                    CP::Vec2.new(25.0, -1.0) ]
-    @shape = CP::Shape::Poly.new(body, shape_array, CP::Vec2.new(0,0))
+    shape_array = [ CP::Vec2.new(0, 25.0),
+                    CP::Vec2.new(25.0, 25.0),
+                    CP::Vec2.new(25.0, 0),
+                    CP::Vec2.new(0, 0) ]
+    @shape = CP::Shape::Poly.new(body, CP::recenter_poly(shape_array), CP::Vec2.new(0,0))
     @shape.collision_type = :ship
 
     @shape.body.p.x = (GameConstants::WIDTH / 2) - (WIDTH / 2)
@@ -44,14 +44,14 @@ class Spaceship
   #
   def move_left
     @shape.body.apply_force(
-      -(@shape.body.rot * 150.0),
+      -(@shape.body.rot * 150.0) * 0.5,
       CP::Vec2.new(0.0, 0.0)
     )
   end
 
   def move_right
     @shape.body.apply_force(
-      (@shape.body.rot * 150.0),
+      (@shape.body.rot * 150.0) * 0.5,
       CP::Vec2.new(0.0, 0.0)
     )
   end
