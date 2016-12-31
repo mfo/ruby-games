@@ -22,6 +22,7 @@ class CollisionManager
     end
     Constants::SPACE.add_collision_func(:spaceship, :enemy) do |spaceship_shape, enemy_shape|
       add_collided_shape(enemy_shape, enemy_collide_spaceship)
+      add_collided_shape(spaceship_shape, enemy_collide_spaceship)
     end
   end
 

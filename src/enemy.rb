@@ -7,7 +7,7 @@ class Enemy < GameEntity
 
     @shape.body.a = (3*Math::PI/2.0) # angle in radians; faces towards top of screen
     @shape.body.apply_force(
-      -@shape.body.rot * 10.0,
+      -@shape.body.rot * 30.0,
       CP::Vec2.new(0.0, 0.0)
     )
   end

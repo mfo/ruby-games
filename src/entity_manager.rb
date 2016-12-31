@@ -9,6 +9,14 @@ class EntityManager
     game_entities.push(item)
   end
 
+  def size
+    game_entities.size
+  end
+
+  def number_of(type)
+    game_entities.select{|entity| entity.class == type }.size
+  end
+
   def find_by_shape(shape)
     @game_entities.find { |item| item.shape == shape }
   end

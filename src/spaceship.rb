@@ -1,8 +1,9 @@
 class Spaceship < GameEntity
+  attr_reader :life
 
   def initialize(opts = {})
     super()
-    @life = 1_000
+    @life = true
 
     @shape.body.p.x = (Constants::WIDTH / 2) - (width / 2)
     @shape.body.p.y = Constants::HEIGHT - 10
@@ -43,6 +44,12 @@ class Spaceship < GameEntity
     move_right if Gosu::button_down? Gosu::KbRight
   end
 
+  def on_collide(entity_manager, collide_context)
+    case collide_context
+    when [:spaceship, :enemy]
+      @life = !@life
+    end
+  end
 
   private
 
@@ -63,7 +70,5 @@ class Spaceship < GameEntity
     )
   end
 
-  def on_collide(entity_manager, collide_context)
-    @life -= 100
-  end
+
 end

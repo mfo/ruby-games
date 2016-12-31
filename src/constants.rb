@@ -22,4 +22,7 @@ module Constants
 
   # Time increment over which to apply a physics "step" ("delta t")
   DT = 1.0 / FPS
+
+  # Game
+  SCORE = 0
 end

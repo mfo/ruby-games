@@ -42,6 +42,12 @@ class Beam < GameEntity
   end
 
   def on_collide(entity_manager, collide_context)
-    entity_manager.remove(self)
+    case collide_context
+    when [:beam, :enemy]
+      entity_manager.remove(self)
+      Constants::SCORE += 10
+    end
+
+
   end
 end
