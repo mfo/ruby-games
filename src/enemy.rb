@@ -16,13 +16,6 @@ class Enemy < GameEntity
   #
   # Override GameEntity
   #
-  def height
-    3
-  end
-
-  def width
-    10
-  end
 
   def mass
     10.0

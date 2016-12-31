@@ -11,6 +11,7 @@ class GameEntity
   end
 
   def initialize(opts = {})
+    load_image
     @shape = CP::Shape::Poly.new(make_body,
                                  make_recentered_poly,
                                  CP::Vec2.new(0,0))
@@ -18,6 +19,9 @@ class GameEntity
     add_to_space(@shape)
   end
 
+  #
+  # Physics
+  #
   def add_to_space(shape)
     Constants::SPACE.add_body(shape.body)
     Constants::SPACE.add_shape(shape)
@@ -36,12 +40,41 @@ class GameEntity
     ])
   end
 
+  #
+  # Graphics
+  #
+  def image_path
+    "graphics/#{self.class.collision_type}.png"
+  end
+
+  def load_image
+    @image = nil
+    @image = Gosu::Image.new(image_path) if File.exists?(image_path)
+  end
+
+  def height
+    @height ||= @image.height
+  end
+
+  def width
+    @width ||= @image.width
+  end
+
+  #
+  # Rendering
+  #
   def draw
-    Gosu.draw_rect(@shape.body.p.x,
-                   @shape.body.p.y,
-                   width,
-                   height,
-                   color)
+    if @image
+      @image.draw(@shape.body.p.x - (width / 2),
+                  @shape.body.p.y - (height / 2),
+                  0)
+    else
+      Gosu.draw_rect(@shape.body.p.x - (width / 2),
+                     @shape.body.p.y - (height / 2),
+                     width,
+                     height,
+                     color)
+    end
   end
 
 end

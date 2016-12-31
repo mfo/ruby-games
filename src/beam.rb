@@ -17,11 +17,11 @@ class Beam < GameEntity
   # Override GameEntity
   #
   def width
-    2
+    10
   end
 
   def height
-    3
+    20
   end
 
   def mass

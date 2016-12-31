@@ -7,21 +7,12 @@ class Spaceship < GameEntity
     @life = true
 
     @shape.body.p.x = (Constants::WIDTH / 2) - (width / 2)
-    @shape.body.p.y = Constants::HEIGHT - 10
+    @shape.body.p.y = Constants::HEIGHT - height - 10
   end
 
   #
   # Override GameEntity
   #
-  def height
-    2
-  end
-
-  def width
-    10
-  end
-
-
   def mass
     10.0
   end
