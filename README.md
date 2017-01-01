@@ -1,1 +1,1 @@
-Start game with ruby launcher.rb
+Start game with ```ruby launcher.rb```
