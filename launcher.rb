@@ -16,6 +16,7 @@ require_relative 'src/collision_manager'
 require_relative 'src/beam'
 require_relative 'src/spaceship'
 require_relative 'src/enemy'
+require_relative 'src/explosion'
 
 # Game controller
 require_relative 'src/space_invader'

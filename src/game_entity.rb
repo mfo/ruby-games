@@ -43,13 +43,19 @@ class GameEntity
   #
   # Graphics
   #
-  def image_path
-    "graphics/#{self.class.collision_type}.png"
+  def image_path(extension)
+    "graphics/#{self.class.collision_type}.#{extension}"
   end
 
   def load_image
     @image = nil
-    @image = Gosu::Image.new(image_path) if File.exists?(image_path)
+    existing_file_path = nil
+
+    %w(gif png).map do |extension|
+      try_file_path = image_path(extension)
+      existing_file_path = try_file_path if File.exists?(try_file_path)
+    end
+    @image = Gosu::Image.new(existing_file_path) if existing_file_path
   end
 
   def height

@@ -36,6 +36,8 @@ class Enemy < GameEntity
   end
 
   def on_collide(entity_manager, collide_context)
+    entity_manager.add(Explosion.new(enemy: self,
+                                     entity_manager: entity_manager))
     entity_manager.remove(self)
   end
 end

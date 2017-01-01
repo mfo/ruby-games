@@ -16,14 +16,6 @@ class Beam < GameEntity
   #
   # Override GameEntity
   #
-  def width
-    10
-  end
-
-  def height
-    20
-  end
-
   def mass
     10
   end
@@ -48,7 +40,5 @@ class Beam < GameEntity
       entity_manager.remove(self)
       Constants::SCORE += 10
     end
-
-
   end
 end

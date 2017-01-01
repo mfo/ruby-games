@@ -39,7 +39,7 @@ class EntityManager
   #
   # Query methods
   #
-  def shapes_in_viewport
+  def renderable
     game_entities.select { |item| in_viewport?(item.shape.body.p) }
   end
 

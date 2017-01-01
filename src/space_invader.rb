@@ -23,7 +23,7 @@ class SpaceInvader < Gosu::Window
   def draw
     game_over and return unless @spaceship.life
     background
-    @entity_manager.shapes_in_viewport.map(&:draw)
+    @entity_manager.renderable.map(&:draw)
   end
 
   def update
@@ -33,7 +33,7 @@ class SpaceInvader < Gosu::Window
 
     Constants::SUBSTEPS.times do
       @collision_manager.handle_collisions
-      @entity_manager.shapes_in_viewport.map(&:update)
+      @entity_manager.renderable.map(&:update)
       Constants::SPACE.step(Constants::DT)
     end
 
@@ -61,7 +61,7 @@ class SpaceInvader < Gosu::Window
   #
   def reset_timer
     @last_tick = Gosu.milliseconds
-    @wait_for -= 100
+    @wait_for -= 10 if @wait_for > 500
   end
 
   def one_sec_elapsed?
@@ -89,14 +89,14 @@ class SpaceInvader < Gosu::Window
   # drawing
   #
   def game_over
-    Gosu.draw_rect(0, 0, Constants::WIDTH, Constants::HEIGHT, Gosu::Color::WHITE)
+    Gosu.draw_rect(0, 0, Constants::WIDTH, Constants::HEIGHT, Gosu::Color::BLACK)
     @font_40.draw_rel("GAME OVER", Constants::WIDTH / 2, Constants::HEIGHT / 2, 1, 0.5, 0.5, 1, 1, Gosu::Color::RED)
   end
 
   def background
-    Gosu.draw_rect(0, 0, Constants::WIDTH, Constants::HEIGHT, Gosu::Color::WHITE)
-    @font_20.draw_rel("Life: #{@spaceship.life}", 10, 10, 1, 0.0, 0.0, 1, 1, Gosu::Color::BLACK)
-    @font_20.draw_rel("Score: #{Constants::SCORE}", Constants::WIDTH - 10, 10, 1, 1.0, 0.0, 1, 1, Gosu::Color::BLACK)
-    @font_20.draw_rel("Entities: #{@entity_manager.size}", 10, Constants::HEIGHT - 30, 1, 0.0, 0.0, 1, 1, Gosu::Color::BLACK)
+    Gosu.draw_rect(0, 0, Constants::WIDTH, Constants::HEIGHT, Gosu::Color::BLACK)
+    @font_20.draw_rel("Life: #{@spaceship.life}", 10, 10, 1, 0.0, 0.0, 1, 1, Gosu::Color::WHITE)
+    @font_20.draw_rel("Score: #{Constants::SCORE}", Constants::WIDTH - 10, 10, 1, 1.0, 0.0, 1, 1, Gosu::Color::WHITE)
+    @font_20.draw_rel("Entities: #{@entity_manager.size}", 10, Constants::HEIGHT - 30, 1, 0.0, 0.0, 1, 1, Gosu::Color::WHITE)
   end
 end
